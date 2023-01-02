@@ -18,9 +18,7 @@ app.use(require('./router/auth'));
 
 const port = process.env.PORT || 3000;
 
-app.get("/api", (req, res) => {
-  res.send("Hello, World!");
-});
+
 
 
 
@@ -39,9 +37,13 @@ const connectDB = async () => {
 }
 
 //Routes go here
-app.all('*', (req,res) => {
-    res.json({"every thing":"is awesome"})
+app.get("/",(req,res)=>{
+  res.send(
+    "hello from server"
+  )
 })
+app.use(require("./router/auth"));
+
 
 //Connect to the database before listening
 connectDB().then(() => {
