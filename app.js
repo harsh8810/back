@@ -27,37 +27,25 @@ app.get("/api", (req, res) => {
  const mongoose = require("mongoose");
 
 
-let setup =()=>{
-   const DB = process.env.MONGODB_URI;
-   mongoose.set("strictQuery", true);
-
-   mongoose
-     .connect(`${DB}`, {
-       useNewUrlparser: true,
-
-       useUnifiedTopology: true,
-     })
-     .then(() => {
-       console.log(`connected database`);
-     })
-     .catch((e) => {
-       console.log(e);
-     });
-  //  console.log(`database`)
-}
- 
-let porting = ()=>{
-   app.listen(port, () => {
-     console.log(`server is running at port no.3000`);
-    //  console.log(`port`)
-   });
+const connectDB = async () => {
+  try {
+    mongoose.set("strictQuery", true);
+    const conn = await mongoose.connect(process.env.MONGODB_URI);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
 }
 
+//Routes go here
+app.all('*', (req,res) => {
+    res.json({"every thing":"is awesome"})
+})
 
-const fixed = async()=>{
-  await setup();
-  await porting();
-}
-
-fixed();
-
+//Connect to the database before listening
+connectDB().then(() => {
+    app.listen(port, () => {
+        console.log("listening for requests");
+    })
+})
