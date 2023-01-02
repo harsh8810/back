@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 const express = require('express');
 const app = express();
-require("./DB/conn");
+
 const bodyparser = require("body-parser");
 app.use(bodyparser.json());
 const cookie_parser = require('cookie-parser');
@@ -24,12 +24,24 @@ app.get("/api", (req, res) => {
 
 
 
-  // Set static folder
-  // app.use(express.static("client/build"));
+ const mongoose = require("mongoose");
 
-  // app.get("*", (req, res) => {
-  //   res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  // });
+ const DB = process.env.MONGODB_URI;
+ mongoose.set("strictQuery", true);
+
+ mongoose
+   .connect(`${DB}`, {
+     useNewUrlparser: true,
+
+     useUnifiedTopology: true,
+   })
+   .then(() => {
+     console.log(`connected database`);
+   })
+   .catch((e) => {
+     console.log(e);
+   });
+
 
 
 
