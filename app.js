@@ -26,25 +26,38 @@ app.get("/api", (req, res) => {
 
  const mongoose = require("mongoose");
 
- const DB = process.env.MONGODB_URI;
- mongoose.set("strictQuery", true);
 
- mongoose
-   .connect(`${DB}`, {
-     useNewUrlparser: true,
+let setup =()=>{
+   const DB = process.env.MONGODB_URI;
+   mongoose.set("strictQuery", true);
 
-     useUnifiedTopology: true,
-   })
-   .then(() => {
-     console.log(`connected database`);
-   })
-   .catch((e) => {
-     console.log(e);
+   mongoose
+     .connect(`${DB}`, {
+       useNewUrlparser: true,
+
+       useUnifiedTopology: true,
+     })
+     .then(() => {
+       console.log(`connected database`);
+     })
+     .catch((e) => {
+       console.log(e);
+     });
+  //  console.log(`database`)
+}
+ 
+let porting = ()=>{
+   app.listen(port, () => {
+     console.log(`server is running at port no.3000`);
+    //  console.log(`port`)
    });
+}
 
 
+const fixed = async()=>{
+  await setup();
+  await porting();
+}
 
+fixed();
 
-app.listen(port, () => {
-  console.log(`server is running at port no.3000`);
-});
