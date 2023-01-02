@@ -18,7 +18,7 @@ app.use(require('./router/auth'));
 
 const port = process.env.PORT || 3000;
 
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   res.send("Hello, World!");
 });
 
