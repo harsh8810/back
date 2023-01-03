@@ -28,7 +28,9 @@ const port = process.env.PORT || 3000;
 const connectDB = async () => {
   try {
     mongoose.set("strictQuery", true);
-    const conn = await mongoose.connect(process.env.MONGODB_URI);
+    const conn = await mongoose.connect(
+      "mongodb+srv://harsh:harsh321@cluster0.npb7heu.mongodb.net/merndata?retryWrites=true&w=majority"
+    );
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.log(error);
